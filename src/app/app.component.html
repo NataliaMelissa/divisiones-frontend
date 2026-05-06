@@ -23,7 +23,15 @@
     <!-- Cabeceras Tabla -->
     <thead>
       <tr>
-        <th>División</th>
+        <!-- Inicio Activación Filtro -->
+        <th
+          [nzFilters]="listOfFilter"
+          [nzFilterMultiple]="true"
+          (nzFilterChange)="onFilterChange($event)"
+        >
+          División
+        </th> <!-- Fin Activación Filtro -->
+
         <th>División Superior</th>
         <th nzWidth="120px">Nivel</th>
         <th nzWidth="150px">Colaboradores</th>
