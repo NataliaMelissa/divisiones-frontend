@@ -1,4 +1,62 @@
 <!-- NG-ZORRO -->
+<!--
 <a href="https://github.com/NG-ZORRO/ng-zorro-antd" target="_blank" style="display: flex;align-items: center;justify-content: center;height: 100%;width: 100%;">
   <img height="300" src="https://img.alicdn.com/tfs/TB1X.qJJgHqK1RjSZFgXXa7JXXa-89-131.svg">
 </a>
+-->
+
+
+<div style="padding: 20px;">
+  <h1 style="margin-bottom: 20px;">Gestión de Divisiones</h1> <!-- Título de la sección -->
+
+  <div style="margin-bottom: 20px;">
+    <input
+      nz-input
+      placeholder="Buscar división por nombre..."
+      (input)="buscar($event)"
+      style="width: 350px;"
+    />
+  </div>
+
+  <nz-table #menuTable [nzData]="divisiones" nzTableLayout="fixed">
+    <thead>
+      <tr>
+        <th>División</th>
+        <th>División Superior</th>
+        <th nzWidth="120px">Nivel</th>
+        <th nzWidth="150px">Colaboradores</th>
+        <th nzWidth="150px">Subdivisiones</th>
+        <th>Embajador</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let d of divisiones">
+        <!-- Nombre de la división -->
+        <td style="font-weight: bold; color: #1890ff;">{{ d.nombre }}</td>
+        
+        <!-- Nombre del padre o guion si es raíz -->
+        <td>{{ d.divisionSuperiorNombre || '-' }}</td>
+        
+        <!-- Nivel jerárquico -->
+        <td>{{ d.nivel }}</td>
+        
+        <!-- Totales calculados -->
+        <td>{{ d.totalColaboradores || 0 }}</td>
+        
+        <!-- Subdivisiones con el icono de la imagen de referencia -->
+        <td>
+          {{ d.totalSubdivisiones || 0 }}
+          <span
+            nz-icon
+            nzType="plus-circle"
+            nzTheme="outline"
+            style="color: #1890ff; margin-left: 8px; cursor: pointer;">
+          </span>
+        </td>
+        
+        <!-- Embajador asignado -->
+        <td>{{ d.embajador || 'Sin asignar' }}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
