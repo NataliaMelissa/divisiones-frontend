@@ -8,5 +8,9 @@ export interface Division {
     nivel: number;
     totalColaboradores?: number;
     totalSubdivisiones?: number;
-    divisionSuperiorNombre?: string;
+    padre?: {
+        id: number;
+        nombre: string;
+        embajador?: string;
+    } | null;
 }

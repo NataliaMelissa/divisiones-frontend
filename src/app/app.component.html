@@ -39,7 +39,7 @@
         <td style="font-weight: bold; color: #1890ff;">{{ d.nombre }}</td>
         
         <!-- Nombre del padre o guion si es raíz -->
-        <td>{{ d.divisionSuperiorNombre || '-' }}</td>
+        <td>{{ d.padre?.nombre || '-' }}</td>
         
         <!-- Nivel jerárquico - Calculado -->
         <td>{{ d.nivel }}</td>
