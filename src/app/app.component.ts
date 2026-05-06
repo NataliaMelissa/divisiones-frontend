@@ -12,8 +12,10 @@ export class AppComponent implements OnInit {
   title = 'frontend-app';
 
   //Variables - Listas
+  searchValue = ''; //Valor para búsqueda
   colaboradores: Colaborador[] = [];
-  divisiones: Division[] = [];
+  divisionesMaster: Division[] = []; //Copia de Seguridad (Directamente del Backend)
+  divisionesFiltradas: Division[] = []; //Lo que ve el usuario en la tabla
 
   //Consturctores
   constructor(private divisionService: DivisionService) {}
@@ -24,7 +26,8 @@ export class AppComponent implements OnInit {
     //Llamar al servicio de Divisiones
     this.divisionService.getDivisiones().subscribe({
       next: (data) => {
-        this.divisiones = data;
+        this.divisionesMaster = data; //Guardar datos render
+        this.divisionesFiltradas = data; //Al inicio mostrar todo
         console.log('Divisiones cargadas correctamente:', data);
       },
       error: (err) => console.error('Error al cargar divisiones:', err)
@@ -38,15 +41,18 @@ export class AppComponent implements OnInit {
 
   //---------------------------------------- Eventos ----------------------------------------
   //Filtrar-Buscar
-  buscar(event: any): void {
-    const valor = event.target.value;
-    
-    this.divisionService.getDivisionesFiltradas(valor).subscribe({
-      next: (data) => {
-        this.divisiones = data; //Actualiza la tabla con el filtro
-      },
-      error: (e) => console.error('Error en el filtro:', e)
-    });
+  filterData(): void {
+    const term = this.searchValue.toLowerCase().trim();
+
+    if (!term) {
+      this.divisionesFiltradas = [...this.divisionesMaster]; // Si borra todo, restauramos la lista
+      return;
+    }
+
+    // Filtramos sobre la lista maestra para no perder datos
+    this.divisionesFiltradas = this.divisionesMaster.filter(d =>
+      d.nombre.toLowerCase().includes(term)
+    );
   }
 }
 

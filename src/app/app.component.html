@@ -13,12 +13,14 @@
     <input
       nz-input
       placeholder="Buscar división por nombre..."
-      (input)="buscar($event)"
+      [(ngModel)]="searchValue"
+      (ngModelChange)="filterData()"
       style="width: 350px;"
     />
   </div>
 
-  <nz-table #menuTable [nzData]="divisiones" nzTableLayout="fixed">
+  <nz-table #menuTable [nzData]="divisionesFiltradas" nzTableLayout="fixed">
+    <!-- Cabeceras Tabla -->
     <thead>
       <tr>
         <th>División</th>
@@ -29,21 +31,23 @@
         <th>Embajador</th>
       </tr>
     </thead>
+
+    <!-- Cuerpo Tabla -->
     <tbody>
-      <tr *ngFor="let d of divisiones">
+      <tr *ngFor="let d of divisionesFiltradas">
         <!-- Nombre de la división -->
         <td style="font-weight: bold; color: #1890ff;">{{ d.nombre }}</td>
         
         <!-- Nombre del padre o guion si es raíz -->
         <td>{{ d.divisionSuperiorNombre || '-' }}</td>
         
-        <!-- Nivel jerárquico -->
+        <!-- Nivel jerárquico - Calculado -->
         <td>{{ d.nivel }}</td>
         
-        <!-- Totales calculados -->
+        <!-- Totales Colaboradores - Calculado -->
         <td>{{ d.totalColaboradores || 0 }}</td>
         
-        <!-- Subdivisiones con el icono de la imagen de referencia -->
+        <!-- Totales Subdivisiones - Calculado -->
         <td>
           {{ d.totalSubdivisiones || 0 }}
           <span
